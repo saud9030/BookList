@@ -3,8 +3,19 @@ import Book from './Book'
 import './App.css';
 
 class App extends Component {
-  render() {
-    const books = [
+  state = {
+    addBook:{
+      "isbn": "",
+      "title": "",
+      "subtitle": "",
+      "author": "",
+      "published": "",
+      "publisher": "",
+      "pages": "",
+      "description": "",
+      "website": ""
+    },
+    books : [
       {
         "isbn": "9781593275846",
         "title": "Eloquent JavaScript, Second Edition",
@@ -94,9 +105,66 @@ class App extends Component {
         "website": "http://chimera.labs.oreilly.com/books/1234000001708/index.html"
       }
     ]
-    let bookList = books.map((book) => <Book book={book}/>)
+  }
+  updateForm = (event) => {
+    const newData= event.target.value;
+    const originalState = this.state.addBook
+    const copy = Object.assign({}, originalState);
+    const key = event.target.name;
+    copy[key] = newData;
+    this.setState({addBook: copy})
+  }
+  addNewBook = (event) =>{
+    event.preventDefault()
+    const copy = this.state.books.slice(0)
+    copy.push(this.state.addBook)
+    this.setState({
+      addBook:{
+        "isbn": "",
+        "title": "",
+        "subtitle": "",
+        "author": "",
+        "published": "",
+        "publisher": "",
+        "pages": "",
+        "description": "",
+        "website": ""
+      },
+      books:copy
+    })
+  }
+  render() {
+
+    let bookList = this.state.books.map((book) => <Book book={book}/>)
     return (
       <div>
+        <form onSubmit={this.addNewBook}>
+          <label>Title of book</label>
+          <input type="text" name="title" onChange ={this.updateForm} value={this.state.addBook.title}></input>
+          <br/>
+          <label>subtitle</label>
+          <input type="text" name="subtitle" onChange ={this.updateForm} value={this.state.addBook.subtitle}></input>
+          <br/>
+          <label>author</label>
+          <input type="text" name="author" onChange ={this.updateForm} value={this.state.addBook.author}></input>
+          <br/>
+          <label>pages</label>
+          <input type="text" name="pages" onChange ={this.updateForm} value={this.state.addBook.pages}></input>
+          <br/>
+          <label>description</label>
+          <input type="text" name="description" onChange ={this.updateForm} value={this.state.addBook.description}></input>
+          <br/>
+          <label>ISBN</label>
+          <input type="text" name="isbn" onChange ={this.updateForm} value={this.state.addBook.isbn}></input>
+          <br/>
+          <label>publisher</label>
+          <input type="text" name="publisher" onChange ={this.updateForm} value={this.state.addBook.publisher}></input>
+          <br/>
+          <label>website</label>
+          <input type="text" name="website" onChange ={this.updateForm} value={this.state.addBook.website}></input>
+          <br/>
+          <button>submit</button>
+        </form>
         {bookList}
       </div>
     );

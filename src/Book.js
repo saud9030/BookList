@@ -18,7 +18,7 @@ class Book extends Component {
     <React.Fragment>
         <h1>{this.props.book.title}</h1>
         <h3>{this.props.book.subtitle}</h3>
-        <h4 onClick={this.showInfo}>Information</h4>
+        <button onClick={this.showInfo}>Information</button>
         <div className={this.state.info}>
             <strong>author:</strong> {this.props.book.author} 
             <br/>
